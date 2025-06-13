@@ -81,6 +81,42 @@ static void led_task(void *pvParameters) {
   uint8_t brightness = 0;
   bool increasing = true;
 
+
+
+
+        if(last_recived + 500 < millis()){
+          
+led_strip_set_pixel(led_strip, i, 255, 0, 255)
+  return;
+  }
+
+  int level = 0;
+  if(remoteStats.dutyCycle >= RED_LOAD) level++;
+  if(remoteStats.dutyCycle >= BLUE_LOAD) level++;
+  if(remoteStats.dutyCycle >= RED_LOAD) level++;
+
+  switch(level) {
+    case 0:
+led_strip_set_pixel(led_strip, i, 0, 0, 0)
+      break;
+    case 1:
+led_strip_set_pixel(led_strip, i, 0, 255, 0)
+      break;
+    case 2:
+led_strip_set_pixel(led_strip, i, 0, 0, 255)
+     // noTone(BUZZER_PIN);
+      break;
+    case 3:
+led_strip_set_pixel(led_strip, i, 255, 0, 0)
+      int var_tone = (map(myData.dutycycle ,RED_LOAD ,100 ,100 ,2000));
+      int var_time = (map(myData.dutycycle ,RED_LOAD ,100 ,10 ,30));
+      tone(BUZZER_PIN, var_tone, var_time); //120 - 1500Hz
+      break;
+  }  
+
+
+
+
   ESP_LOGD(TAG, "Start blinking LED strip");
   while (1) {
     if (brightness == 0) {
